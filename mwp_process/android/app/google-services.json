@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "244228170622",
+    "project_id": "mwp-process",
+    "storage_bucket": "mwp-process.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:244228170622:android:8641cef89af2cb0eac492f",
+        "android_client_info": {
+          "package_name": "com.example.mwp_process"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "244228170622-6cuaiqrjsc4qtt8qsd88efm4kloss6f8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpqfLJ1lcyVAUgo65qCEww22mXPn4Cezg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "244228170622-6cuaiqrjsc4qtt8qsd88efm4kloss6f8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "244228170622-2pr4cb3g2j0dv739eo2dlcthoc916al2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.mwpProcess"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
