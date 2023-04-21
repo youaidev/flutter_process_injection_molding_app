@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mwp_process/screens/screen_chat.dart';
-import 'package:mwp_process/screens/screen_login.dart';
-import 'package:mwp_process/screens/screen_register.dart';
+import 'package:mwp_process/pages/Home.dart';
+import 'package:mwp_process/pages/Home.dart';
+import 'package:mwp_process/pages/Login.dart';
+import 'package:mwp_process/pages/Process.dart';
+import 'package:mwp_process/pages/Register.dart';
+
 import 'customs/custom_circle_image.dart';
 import 'customs/custom_button.dart';
 import 'customs/custom_text_form_field.dart';
@@ -20,12 +23,13 @@ void main() async {
 
   await Supabase.initialize(
     url: "https://smdapferluoknheqlbso.supabase.co",
-    anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNtZGFwZmVybHVva25oZXFsYnNvIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODEzMjg0ODEsImV4cCI6MTk5NjkwNDQ4MX0.htJwyTxU1osvSKvFAXG3sfuTZSvSdZjFVwFZgec6U2s",
+    anonKey:
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNtZGFwZmVybHVva25oZXFsYnNvIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODEzMjg0ODEsImV4cCI6MTk5NjkwNDQ4MX0.htJwyTxU1osvSKvFAXG3sfuTZSvSdZjFVwFZgec6U2s",
   );
   runApp(MwpProcess());
 }
-final supabase = Supabase.instance.client;
 
+final supabase = Supabase.instance.client;
 
 class MwpProcess extends StatelessWidget {
   const MwpProcess({super.key});
@@ -33,12 +37,19 @@ class MwpProcess extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: "MWP-PROCESS",
+      theme: ThemeData(
+        primaryColor: Colors.blue[400],
+        accentColor: Colors.green[400],
+      ),
+      debugShowCheckedModeBanner: false,
       routes: {
-        ScreenLogin().id: (context) => ScreenLogin(),
-        ScreenRegister().id: (context) => ScreenRegister(),
-        ScreenChat.id :(context) => ScreenChat(),
+        Login().id: (context) => Login(),
+        Register().id: (context) => Register(),
+        Home.id: (context) => Home(),
+        Process.id: (context) => Process(),
       },
-      initialRoute: ScreenLogin().id,
+      initialRoute: Home.id,
     );
   }
 }

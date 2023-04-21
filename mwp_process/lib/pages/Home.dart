@@ -1,40 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:mwp_process/constants.dart';
 
+import '../customs/custom_card.dart';
 import '../customs/custom_circle_image.dart';
 
-class ScreenChat extends StatelessWidget {
-  const ScreenChat({super.key});
+class Home extends StatelessWidget {
+  const Home({super.key});
 
-  static String id = 'ScreenChat';
+  static String id = 'home';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: kPrimeryColor,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              height: 50,
-              child: CircleAvatar(
-                backgroundImage: AssetImage(
-                  'assets/images/mwp_process.jpg',
-                ),
-                radius: 30,
-              ),
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Text(
-              'Chat',
-            ),
-          ],
-        ),
-        centerTitle: true,
+        leading: Icon(Icons.menu),
+        title: Text('Page title'),
+        actions: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Icon(Icons.search),
+          ),
+          Icon(Icons.more_vert),
+        ],
+        backgroundColor: Colors.blue,
+      ),
+      body: Column(
+        children: [
+          CustomCard(),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: kPrimeryColor,

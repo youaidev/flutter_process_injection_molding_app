@@ -1,10 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:mwp_process/constants.dart';
 import 'package:mwp_process/main.dart';
-import 'package:mwp_process/screens/screen_login.dart';
+import 'package:mwp_process/pages/Home.dart';
+import 'package:mwp_process/pages/Register.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../customs/custom_button.dart';
 import '../customs/custom_circle_image.dart';
@@ -12,23 +12,23 @@ import '../customs/custom_text_form_field.dart';
 import '../helpers/helper_snackBarMessage.dart';
 
 // Login
-class ScreenRegister extends StatefulWidget {
-  ScreenRegister({super.key});
+class Login extends StatefulWidget {
+  Login({super.key});
 
-  String id = 'ScreenRegister';
+  String id = 'Login';
 
   @override
-  State<ScreenRegister> createState() => _ScreenRegisterState();
+  State<Login> createState() => _LoginState();
 }
 
-class _ScreenRegisterState extends State<ScreenRegister> {
-  String? emailAuth;
+class _LoginState extends State<Login> {
+  bool isLoading = false;
+  GlobalKey<FormState> formkey = GlobalKey();
 
+  String? emailAuth;
   String? passwordAuth;
 
-  bool isLoading = false;
-
-  GlobalKey<FormState> formkey = GlobalKey();
+  get kIsWeb => null;
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +43,30 @@ class _ScreenRegisterState extends State<ScreenRegister> {
             key: formkey,
             child: ListView(
               children: [
+                // CustomButton(
+                //   text: 'Google',
+                //   onTap: () async {
+                //     isLoading = true;
+                //     setState(() {});
+                //     try {
+                //       await supabase.auth.signInWithOAuth(Provider.google,
+                //           scopes: 'repo gist notifications');
+                //       final Session? session = supabase.auth.currentSession;
+                //       final String? oAuthToken = session?.providerToken;
+                //       helper_snackBarMessage(context, 'success.');
+                //       Navigator.pushNamed(context, Home.id);
+                //     } catch (e) {
+                //       helper_snackBarMessage(
+                //         context,
+                //         e.toString(),
+                //       );
+                //     }
+                //     isLoading = false;
+                //     setState(() {});
+                //   }, // onTap
+                // ),
                 const SizedBox(
-                  height: 100,
+                  height: 50,
                 ),
                 CustomCircleImage(
                   asset_image: 'assets/images/mwp_process.jpg',
@@ -55,7 +77,7 @@ class _ScreenRegisterState extends State<ScreenRegister> {
                   text_size: 65,
                 ),
                 const SizedBox(
-                  height: 100,
+                  height: 40,
                 ),
                 CustomTextFormField(
                   labelText: 'Enter your email',
@@ -79,7 +101,7 @@ class _ScreenRegisterState extends State<ScreenRegister> {
                   height: 20,
                 ),
                 CustomButton(
-                  text: 'Register',
+                  text: 'Login',
                   onTap: () async {
                     if (formkey.currentState!.validate()) {
                       isLoading = true;
@@ -88,35 +110,37 @@ class _ScreenRegisterState extends State<ScreenRegister> {
                         if (emailAuth != null && passwordAuth != null) {
                           // var auth = FirebaseAuth.instance;
                           // await registerUser(auth);
-                          final AuthResponse res = await supabase.auth.signUp(
+                          final AuthResponse res =
+                              await supabase.auth.signInWithPassword(
                             email: emailAuth,
                             password: passwordAuth!,
                           );
                           helper_snackBarMessage(context, 'success.');
-                          Navigator.pop(context);
+                          Navigator.pushNamed(context, Home.id);
                         }
-                      // } on FirebaseAuthException catch (e) {
-                      //   if (e.code == 'weak-password') {
-                      //     helper_snackBarMessage(
-                      //       context,
-                      //       'week password, use more than 8.',
-                      //     );
-                      //   } else if (e.code == 'email-already-in-use') {
-                      //     helper_snackBarMessage(
-                      //       context,
-                      //       'email already in use.',
-                      //     );
-                      //   } else if (e.code == 'invalid-email') {
-                      //     helper_snackBarMessage(
-                      //       context,
-                      //       'invalid email.',
-                      //     );
-                      //   } else {
-                      //     helper_snackBarMessage(
-                      //       context,
-                      //       e.toString(),
-                      //     );
-                      //   }
+                        // }
+                        //on FirebaseAuthException catch (e) {
+                        //   if (e.code == 'user-not-found') {
+                        //     helper_snackBarMessage(
+                        //       context,
+                        //       'user not found.',
+                        //     );
+                        //   } else if (e.code == 'wrong-password') {
+                        //     helper_snackBarMessage(
+                        //       context,
+                        //       'wrong password.',
+                        //     );
+                        //   } else if (e.code == 'invalid-email') {
+                        //     helper_snackBarMessage(
+                        //       context,
+                        //       'invalid email.',
+                        //     );
+                        //   } else {
+                        //     helper_snackBarMessage(
+                        //       context,
+                        //       e.toString(),
+                        //     );
+                        //   }
                       } catch (e) {
                         helper_snackBarMessage(
                           context,
@@ -135,7 +159,7 @@ class _ScreenRegisterState extends State<ScreenRegister> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Already have an account?",
+                      "Don't have an account?",
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.white,
@@ -146,22 +170,30 @@ class _ScreenRegisterState extends State<ScreenRegister> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.pop(
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: ((context) {
+                        //       return Register();
+                        //     }),
+                        //   ),
+                        // );
+                        Navigator.pushNamed(
                           context,
-                          ScreenLogin().id,
+                          Register().id,
                         );
-                      }, // onTap
+                      },
                       child: Text(
-                        'Login',
+                        'Register',
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.white,
                         ),
                       ),
                     ),
-                  ], // children
+                  ],
                 )
-              ], // children
+              ],
             ),
           ),
         ),
@@ -170,7 +202,7 @@ class _ScreenRegisterState extends State<ScreenRegister> {
   }
 
 //   Future<void> registerUser(FirebaseAuth auth) async {
-//     UserCredential userAuth = await auth.createUserWithEmailAndPassword(
+//     UserCredential userAuth = await auth.signInWithEmailAndPassword(
 //       email: emailAuth!,
 //       password: passwordAuth!,
 //     );

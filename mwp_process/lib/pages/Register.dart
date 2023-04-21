@@ -1,10 +1,10 @@
-// import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:mwp_process/constants.dart';
 import 'package:mwp_process/main.dart';
-import 'package:mwp_process/screens/screen_chat.dart';
-import 'package:mwp_process/screens/screen_register.dart';
+import 'package:mwp_process/pages/Login.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../customs/custom_button.dart';
 import '../customs/custom_circle_image.dart';
@@ -12,21 +12,23 @@ import '../customs/custom_text_form_field.dart';
 import '../helpers/helper_snackBarMessage.dart';
 
 // Login
-class ScreenLogin extends StatefulWidget {
-  ScreenLogin({super.key});
+class Register extends StatefulWidget {
+  Register({super.key});
 
-  String id = 'ScreenLogin';
+  String id = 'Register';
 
   @override
-  State<ScreenLogin> createState() => _ScreenLoginState();
+  State<Register> createState() => _RegisterState();
 }
 
-class _ScreenLoginState extends State<ScreenLogin> {
-  bool isLoading = false;
-  GlobalKey<FormState> formkey = GlobalKey();
-
+class _RegisterState extends State<Register> {
   String? emailAuth;
+
   String? passwordAuth;
+
+  bool isLoading = false;
+
+  GlobalKey<FormState> formkey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,7 @@ class _ScreenLoginState extends State<ScreenLogin> {
             child: ListView(
               children: [
                 const SizedBox(
-                  height: 100,
+                  height: 50,
                 ),
                 CustomCircleImage(
                   asset_image: 'assets/images/mwp_process.jpg',
@@ -53,7 +55,7 @@ class _ScreenLoginState extends State<ScreenLogin> {
                   text_size: 65,
                 ),
                 const SizedBox(
-                  height: 100,
+                  height: 40,
                 ),
                 CustomTextFormField(
                   labelText: 'Enter your email',
@@ -77,7 +79,7 @@ class _ScreenLoginState extends State<ScreenLogin> {
                   height: 20,
                 ),
                 CustomButton(
-                  text: 'Login',
+                  text: 'Register',
                   onTap: () async {
                     if (formkey.currentState!.validate()) {
                       isLoading = true;
@@ -86,25 +88,23 @@ class _ScreenLoginState extends State<ScreenLogin> {
                         if (emailAuth != null && passwordAuth != null) {
                           // var auth = FirebaseAuth.instance;
                           // await registerUser(auth);
-                          final AuthResponse res =
-                              await supabase.auth.signInWithPassword(
+                          final AuthResponse res = await supabase.auth.signUp(
                             email: emailAuth,
                             password: passwordAuth!,
                           );
                           helper_snackBarMessage(context, 'success.');
-                          Navigator.pushNamed(context, ScreenChat.id);
+                          Navigator.pop(context);
                         }
-                        // }
-                        //on FirebaseAuthException catch (e) {
-                        //   if (e.code == 'user-not-found') {
+                        // } on FirebaseAuthException catch (e) {
+                        //   if (e.code == 'weak-password') {
                         //     helper_snackBarMessage(
                         //       context,
-                        //       'user not found.',
+                        //       'week password, use more than 8.',
                         //     );
-                        //   } else if (e.code == 'wrong-password') {
+                        //   } else if (e.code == 'email-already-in-use') {
                         //     helper_snackBarMessage(
                         //       context,
-                        //       'wrong password.',
+                        //       'email already in use.',
                         //     );
                         //   } else if (e.code == 'invalid-email') {
                         //     helper_snackBarMessage(
@@ -135,7 +135,7 @@ class _ScreenLoginState extends State<ScreenLogin> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Don't have an account?",
+                      "Already have an account?",
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.white,
@@ -146,30 +146,22 @@ class _ScreenLoginState extends State<ScreenLogin> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: ((context) {
-                        //       return ScreenRegister();
-                        //     }),
-                        //   ),
-                        // );
-                        Navigator.pushNamed(
+                        Navigator.pop(
                           context,
-                          ScreenRegister().id,
+                          Login().id,
                         );
-                      },
+                      }, // onTap
                       child: Text(
-                        'Register',
+                        'Login',
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.white,
                         ),
                       ),
                     ),
-                  ],
+                  ], // children
                 )
-              ],
+              ], // children
             ),
           ),
         ),
@@ -178,10 +170,9 @@ class _ScreenLoginState extends State<ScreenLogin> {
   }
 
 //   Future<void> registerUser(FirebaseAuth auth) async {
-//     UserCredential userAuth = await auth.signInWithEmailAndPassword(
+//     UserCredential userAuth = await auth.createUserWithEmailAndPassword(
 //       email: emailAuth!,
 //       password: passwordAuth!,
 //     );
 //   }
-
 }
